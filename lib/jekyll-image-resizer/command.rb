@@ -28,7 +28,7 @@ module Jekyll
           @folder = "assets/images/posts/#{post}"
           path = "#{folder}/*.{jpg,png,gif,jpeg,JPG,JPEG}"
 
-          puts "Processing images with width: #{image_width}px(small width: #{image_small_width}px ) and quality: #{image_quality}% \n\n"
+          puts "Processing images with width: #{image_width}px(small width: #{image_small_width}px) and quality: #{image_quality}% \n\n"
           puts 'images:'
 
           Dir.glob(path) do |image_path|
