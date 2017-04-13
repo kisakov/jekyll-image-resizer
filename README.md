@@ -1,15 +1,15 @@
 # Jekyll::Image::Resizer
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jekyll/image/resizer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Jekyll image resizer plugin. Resize images with simple command.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jekyll-image-resizer'
+group :jekyll_plugins do
+  gem 'jekyll-image-resizer', git: 'git@github.com:kisakov/jekyll-image-resizer.git'
+end
 ```
 
 And then execute:
@@ -20,9 +20,18 @@ Or install it yourself as:
 
     $ gem install jekyll-image-resizer
 
+And finaly add these to your _config.yml
+
+```yml
+image_width: 2048
+image_small_width: 300
+image_quality: 90
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+    $ rake resize 2017-01-15-first-weekend # 1st argument is path
+    $ rake resize 2017-01-15-first-weekend 300 90 # 1st argument is path, 2nd is image width and 3rd it's quality
 
 ## Development
 
