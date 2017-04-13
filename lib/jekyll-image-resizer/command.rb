@@ -25,8 +25,13 @@ module Jekyll
           @image_width = options['image_width']
           @image_small_width = args[1] ? args[1].to_i : options['image_small_width']
           @image_quality = args[2] ? args[2].to_i : options['image_quality']
-          @folder = "assets/images/posts/#{post}"
+          @folder = Dir["**/"].select { |dir| dir.include?(post) }.reject { |dir| dir.include?('_site') }.first
+
+          return puts("\nError! Can't find folder with this name.\n") if folder.nil?
+
           path = "#{folder}/*.{jpg,png,gif,jpeg,JPG,JPEG}"
+
+          return puts("\nError! There are no images inside folder #{folder}\n") if Dir.glob(path).size.zero?
 
           puts "Processing images with width: #{image_width}px(small width: #{image_small_width}px) and quality: #{image_quality}% \n\n"
           puts 'images:'
