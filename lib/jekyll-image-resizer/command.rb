@@ -36,8 +36,11 @@ module Jekyll
           puts "Processing images with width: #{image_width}px(small width: #{image_small_height}px) and quality: #{image_quality}% \n\n"
           puts 'images:'
 
-          Dir.glob(path) do |image_path|
-            image_name = File.basename(image_path)
+          Dir.glob(path) do |image|
+            image_name = File.basename(image).downcase
+            image_path = "#{folder}/#{image_name}"
+
+            File.rename(image, image_path)
             next if image_name.include?('-small.')
 
             process_image(image_name, image_path)
