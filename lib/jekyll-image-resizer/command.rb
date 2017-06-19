@@ -21,7 +21,7 @@ module Jekyll
         def process_images(args, opts)
           options = configuration_from_options(opts)
 
-          post = args[0]
+          post = args[0] || last_post(opts)
           @image_width = options['image_width']
           @image_small_width = args[1] ? args[1].to_i : options['image_small_width']
           @image_quality = args[2] ? args[2].to_i : options['image_quality']
@@ -44,6 +44,16 @@ module Jekyll
           end
 
           puts "\nAll images in folder \"#{folder}\" were processed."
+        end
+
+        def last_post(opts)
+          options = configuration_from_options(opts)
+          site = Jekyll::Site.new(options)
+          site.reset
+          site.read
+          posts = site.posts.docs
+
+          posts.last.data['slug']
         end
 
         def process_image(image_name, image_path)
