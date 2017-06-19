@@ -31,7 +31,7 @@ image_quality: 90
 ## Usage
 
     $ jekyll resize 2017-01-15-first-weekend # 1st argument is path
-    $ jekyll resize 2017-01-15-first-weekend 300 90 # 1st argument is path, 2nd is image width and 3rd it's quality
+    $ jekyll resize 2017-01-15-first-weekend 200 90 # 1st argument is path, 2nd is image small height and 3rd it's quality
 
 ## Development
 
