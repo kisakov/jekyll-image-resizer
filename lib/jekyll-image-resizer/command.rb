@@ -3,7 +3,7 @@ module Jekyll
     class Command < Jekyll::Command
 
       class << self
-        attr_accessor :image_width, :image_small_width, :image_quality, :folder
+        attr_accessor :image_width, :image_small_height, :image_quality, :folder
 
         def init_with_program(prog)
           prog.command(:resize) do |c|
@@ -23,7 +23,7 @@ module Jekyll
 
           post = args[0] || last_post(opts)
           @image_width = options['image_width']
-          @image_small_width = args[1] ? args[1].to_i : options['image_small_width']
+          @image_small_height = args[1] ? args[1].to_i : options['image_small_height']
           @image_quality = args[2] ? args[2].to_i : options['image_quality']
           @folder = Dir["**/"].select { |dir| dir.include?(post) }.reject { |dir| dir.include?('_site') }.first
 
@@ -33,7 +33,7 @@ module Jekyll
 
           return puts("\nError! There are no images inside folder #{folder}\n") if Dir.glob(path).size.zero?
 
-          puts "Processing images with width: #{image_width}px(small width: #{image_small_width}px) and quality: #{image_quality}% \n\n"
+          puts "Processing images with width: #{image_width}px(small width: #{image_small_height}px) and quality: #{image_quality}% \n\n"
           puts 'images:'
 
           Dir.glob(path) do |image_path|
@@ -59,26 +59,36 @@ module Jekyll
         def process_image(image_name, image_path)
           puts "  - #{image_name}"
 
-          image = resize_image(image_path, image_width)
+          image = resize_image(image_path) do |image, ratio|
+            height = if image.width > image.height
+              image_width / ratio
+            else
+              image_width * ratio
+            end.round
+
+            [image_width, height]
+          end
           image.write(image_path)
 
-          image = resize_image(image_path, image_small_width)
+          image = resize_image(image_path) do |image, ratio|
+            width = if image.width > image.height
+              image_small_height * ratio
+            else
+              image_small_height / ratio
+            end.round
+
+            [width, image_small_height]
+          end
           small_image_name = image_name.gsub!('.', '-small.')
           image.write("#{folder}/#{small_image_name}")
         end
 
-        def resize_image(image_path, width)
+        def resize_image(image_path)
           image = MiniMagick::Image.open(image_path)
           image.quality(image_quality)
           ratio = image.width / image.height.to_f
 
-          if image.width > image.height
-            height = (width / ratio).round
-            width = width
-          else
-            height = (width * ratio).round
-            width = (height * ratio).round
-          end
+          width, height = yield(image, ratio)
 
           image.resize "#{width}x#{height}"
           image

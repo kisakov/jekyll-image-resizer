@@ -24,7 +24,7 @@ And finaly add these to your _config.yml
 
 ```yml
 image_width: 2048
-image_small_width: 300
+image_small_height: 200
 image_quality: 90
 ```
 
