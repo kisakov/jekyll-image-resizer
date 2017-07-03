@@ -1,10 +1,11 @@
 module Jekyll
   module ImageResizer
     class Resizer
-      attr_accessor :image_width, :image_small_height, :image_quality, :folder, :options
+      attr_accessor :image_width, :image_small_height, :image_quality, :folder, :options, :args
 
-      def initialize(args, options, opts)
+      def initialize(args, options)
         @options = options
+        @args = args
         post = args[0] || last_post
         @image_width = options['image_width']
         @image_small_height = args[1] ? args[1].to_i : options['image_small_height']
@@ -12,8 +13,8 @@ module Jekyll
         @folder = Dir["**/"].select { |dir| dir.include?(post) }.reject { |dir| dir.include?('_site') }.first
       end
 
-      def self.process_images(args, options, opts)
-        new(args, options, opts).process
+      def self.process_images(args, options)
+        new(args, options).process
       end
 
       def process
@@ -33,6 +34,7 @@ module Jekyll
           File.rename(image, image_path)
           next if image_name.include?('-small.')
 
+          puts "  - #{image_name}"
           process_image(image_name, image_path)
         end
 
@@ -51,8 +53,6 @@ module Jekyll
       end
 
       def process_image(image_name, image_path)
-        puts "  - #{image_name}"
-
         image = resize_image(image_path) do |image, ratio|
           height = if image.width > image.height
             image_width / ratio
