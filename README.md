@@ -7,9 +7,9 @@ Jekyll image resizer plugin. Resize images with simple command.
 Add this line to your application's Gemfile:
 
 ```ruby
-group :jekyll_plugins do
-  gem 'jekyll-image-resizer', git: 'git@github.com:kisakov/jekyll-image-resizer.git'
-end
+    group :jekyll_plugins do
+      gem 'jekyll-image-resizer', git: 'git@github.com:kisakov/jekyll-image-resizer.git'
+    end
 ```
 
 And then execute:
@@ -23,17 +23,17 @@ Or install it yourself as:
 And finaly add these to your _config.yml
 
 ```yml
-image_width: 2048
-image_small_height: 200
-image_quality: 90
+    image_width: 2048
+    image_small_height: 200
+    image_quality: 90
 ```
 
 ## Usage
 
-    $ jekyll photo 2017-01-15-first-weekend # 1st argument is path
-    $ jekyll image 2017-01-15-first-weekend # 1st argument is path
-    $ jekyll resize 2017-01-15-first-weekend # 1st argument is path
-    $ jekyll resize 2017-01-15-first-weekend 200 90 # 1st argument is path, 2nd is image small height and 3rd it's quality
+    $ jekyll photo 2017-01-15-first-weekend # 1st argument is path or image. Will resize and watermark
+    $ jekyll image 0.jpg # 1st argument is path or image. Will resize and watermark
+    $ jekyll resize 2017-01-15-first-weekend # 1st argument is path or image
+    $ jekyll resize 1.jpg 90 300 # 1st argument is path or image, 2nd is quality 3rd is image small height
     $ jekyll watermark 2017-01-15-first-weekend
 
 ## Development
