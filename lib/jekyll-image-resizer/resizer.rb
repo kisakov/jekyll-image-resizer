@@ -1,15 +1,22 @@
 module Jekyll
   module ImageResizer
     class Resizer
-      attr_accessor :image_width, :image_small_height, :image_quality, :folder, :options, :args
+      attr_accessor :image_width, :image_small_height, :image_quality, :folder, :options, :args, :single_image
 
       def initialize(args, options)
         @options = options
         @args = args
-        post = args[0] || last_post
+        post = if args[0] && args[0].include?('.')
+                 @single_image = args[0]
+                 last_post
+               elsif args[0] && !args[0].include?('.')
+                 args[0]
+               else
+                 last_post
+               end
         @image_width = options['image_width']
-        @image_small_height = args[1] ? args[1].to_i : options['image_small_height']
-        @image_quality = args[2] ? args[2].to_i : options['image_quality']
+        @image_quality = args[1] ? args[1].to_i : options['image_quality']
+        @image_small_height = args[2] ? args[2].to_i : options['image_small_height']
         @folder = Dir["**/"].select { |dir| dir.include?(post) }.reject { |dir| dir.include?('_site') }.first
       end
 
@@ -20,19 +27,28 @@ module Jekyll
       def process
         return puts("\nError! Can't find folder with this name.\n") if folder.nil?
 
-        path = "#{folder}/*.{jpg,png,gif,jpeg,JPG,JPEG}"
+        images = if single_image
+                   image = "#{folder}#{single_image}"
+                   return puts("\nError! There isn't image #{image}\n") unless File.exists?(image)
 
-        return puts("\nError! There are no images inside folder #{folder}\n") if Dir.glob(path).size.zero?
+                   [image]
+                 else
+                   path = "#{folder}*.{jpg,png,gif,jpeg,JPG,JPEG}"
+                   return puts("\nError! There are no images inside folder #{folder}\n") if Dir.glob(path).size.zero?
 
+                   Dir.glob(path)
+                 end
+
+        puts "Folder: #{folder}"
         puts "Processing images with width: #{image_width}px(small width: #{image_small_height}px) and quality: #{image_quality}% \n\n"
         puts 'images:'
 
-        Dir.glob(path) do |image|
+        images.each do |image|
           image_name = File.basename(image).downcase
           image_path = "#{folder}/#{image_name}"
 
           File.rename(image, image_path)
-          next if image_name.include?('-small.')
+          next if image_name.include?('-small.') || image_name.include?('thumbnail')
 
           puts "  - #{image_name}"
           process_image(image_name, image_path)
