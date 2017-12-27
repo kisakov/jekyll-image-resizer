@@ -34,7 +34,8 @@ And finaly add these to your _config.yml
     $ jekyll image 0.jpg # 1st argument is path or image. Will resize and watermark
     $ jekyll resize 2017-01-15-first-weekend # 1st argument is path or image
     $ jekyll resize 1.jpg 90 300 # 1st argument is path or image, 2nd is quality 3rd is image small height
-    $ jekyll watermark 2017-01-15-first-weekend
+    $ jekyll watermark 2017-01-15-first-weekend # add watermark
+    $ jekyll thumbnail 2.jpg # create thumbnail
 
 ## Development
 

@@ -48,9 +48,8 @@ module Jekyll
           image_path = "#{folder}/#{image_name}"
 
           File.rename(image, image_path)
-          next if image_name.include?('-small.') || image_name.include?('thumbnail')
+          next if image_name.include?('-small.')
 
-          puts "  - #{image_name}"
           process_image(image_name, image_path)
         end
 
@@ -69,6 +68,10 @@ module Jekyll
       end
 
       def process_image(image_name, image_path)
+        return if image_name.include?('thumbnail')
+
+        puts "  - #{image_name}"
+
         image = resize_image(image_path) do |image, ratio|
           height = if image.width > image.height
             image_width / ratio
@@ -92,8 +95,6 @@ module Jekyll
         small_image_name = image_name.gsub!('.', '-small.')
         image.write("#{folder}/#{small_image_name}")
       end
-
-      private
 
       def resize_image(image_path)
         image = MiniMagick::Image.open(image_path)

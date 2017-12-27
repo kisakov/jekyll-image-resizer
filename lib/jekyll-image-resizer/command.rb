@@ -41,6 +41,19 @@ module Jekyll
             WaterMark.process_images(args, options)
           end
         end
+
+        prog.command(:thumbnail) do |c|
+          c.syntax "thumbnail [options]"
+          c.description 'Create thumbnail from image'
+
+          c.action do |args, opts|
+            opts['serving'] = false
+            Jekyll.logger.adjust_verbosity(opts)
+            options = configuration_from_options(opts)
+
+            Thumbnail.process_images(args, options)
+          end
+        end
       end
     end
   end
