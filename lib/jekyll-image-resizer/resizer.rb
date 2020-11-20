@@ -24,6 +24,10 @@ module Jekyll
         new(args, options).process
       end
 
+      def self.print_images(args, options)
+        new(args, options).print_images
+      end
+
       def process
         return puts("\nError! Can't find folder with this name.\n") if folder.nil?
 
