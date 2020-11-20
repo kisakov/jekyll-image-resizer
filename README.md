@@ -36,6 +36,7 @@ And finaly add these to your _config.yml
     $ jekyll resize 1.jpg 90 300 # 1st argument is path or image, 2nd is quality 3rd is image small height
     $ jekyll watermark 2017-01-15-first-weekend # add watermark
     $ jekyll thumbnail 2.jpg # create thumbnail
+    $ jekyll image 0.jpg # 1st argument is path. Will print image names
 
 ## Development
 
@@ -45,5 +46,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/jekyll-image-resizer.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kisakov/jekyll-image-resizer.
 

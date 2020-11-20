@@ -56,6 +56,23 @@ module Jekyll
         puts "\nAll images in folder \"#{folder}\" were processed."
       end
 
+      def print_images
+        return puts("\nError! Can't find folder with this name.\n") if folder.nil?
+
+        path = "#{folder}*.{jpg,png,gif,jpeg,JPG,JPEG}"
+        return puts("\nError! There are no images inside folder #{folder}\n") if Dir.glob(path).size.zero?
+
+        puts "Folder: #{folder}"
+        puts 'images:'
+
+        Dir.glob(path).each do |image|
+          image_name = File.basename(image)
+          next if image_name.include?('small.') || image_name.include?('thumbnail')
+
+          puts "  - #{image_name}"
+        end
+      end
+
       protected
 
       def last_post

@@ -16,6 +16,19 @@ module Jekyll
           end
         end
 
+        prog.command(:images) do |c|
+          c.syntax "images [options]"
+          c.description 'Print image names'
+
+          c.action do |args, opts|
+            opts['serving'] = false
+            Jekyll.logger.adjust_verbosity(opts)
+            options = configuration_from_options(opts)
+
+            Resizer.print_images(args, options)
+          end
+        end
+
         prog.command(:resize) do |c|
           c.syntax "resize [options]"
           c.description 'Resize images'
