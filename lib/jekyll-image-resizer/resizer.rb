@@ -52,7 +52,7 @@ module Jekyll
           image_path = "#{folder}/#{image_name}"
 
           File.rename(image, image_path)
-          next if image_name.include?('-small.')
+          next if image_name.include?('_small.')
 
           process_image(image_name, image_path)
         end
