@@ -113,7 +113,7 @@ module Jekyll
 
           [width, image_small_height]
         end
-        small_image_name = image_name.gsub!('.', '-small.')
+        small_image_name = image_name.gsub!('.', '_small.')
         image.write("#{folder}/#{small_image_name}")
       end
 
